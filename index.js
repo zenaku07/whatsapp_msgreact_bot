@@ -23,7 +23,8 @@ client.on('message', async (msg) => {
 
     if (command === '!qrcode') {
       // Handle QR code generation here
-      const qrCodeDataUrl = await generateQRCode(client.getSessionId());
+      const sessionId = client.getSessionId();
+      const qrCodeDataUrl = await generateQRCode(sessionId);
       msg.reply(qrCodeDataUrl);
     } else if (command === '!start') {
       // Send the introduction message for the bot
@@ -45,6 +46,7 @@ client.on('qr', (qr) => {
     if (err) {
       console.error('Error generating QR code:', err);
     } else {
+      // Log the base64 string representation of the QR code
       console.log(url);
     }
   });
@@ -56,4 +58,4 @@ client.initialize();
 // Prevent the Node.js project from idling by keeping the script running forever
 setInterval(() => {
   console.log('Bot is still running...');
-}, 60 * 60 * 1000); // Log a message every hour to prevent script from exiting
+}, 60 * 60 * 1000);
